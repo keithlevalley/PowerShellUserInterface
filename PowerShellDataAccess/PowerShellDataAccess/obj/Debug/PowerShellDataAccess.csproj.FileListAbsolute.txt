@@ -1,0 +1,9 @@
+C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\bin\Debug\DB\Customer.mdf
+C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\bin\Debug\DB\Customer_log.ldf
+C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\bin\Debug\PowerShellDataAccess.dll.config
+C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\bin\Debug\PowerShellDataAccess.dll
+C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\bin\Debug\PowerShellDataAccess.pdb
+C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\obj\Debug\PowerShellDataAccess.csprojResolveAssemblyReference.cache
+C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\obj\Debug\PowerShellDataAccess.csproj.CoreCompileInputs.cache
+C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\obj\Debug\PowerShellDataAccess.dll
+C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\obj\Debug\PowerShellDataAccess.pdb
