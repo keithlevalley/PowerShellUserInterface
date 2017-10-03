@@ -69,12 +69,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DB\Customer.mdf">
+    <Content Include="DB\USB001_USER_MASTER.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="DB\Customer_log.ldf">
+    <Content Include="DB\USB001_USER_MASTER_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>Customer.mdf</DependentUpon>
+      <DependentUpon>USB001_USER_MASTER.mdf</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -10,4 +10,7 @@
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartArguments>USB001_USER_MASTER.mdf USG001_USER_ADD Create USER_NM JDoe USER_FNM John USER_LNM Doe USER_EMAIL Jdoe%40example.com USER_PHONE_NUM 111-11-1111</StartArguments>
+  </PropertyGroup>
 </Project>
