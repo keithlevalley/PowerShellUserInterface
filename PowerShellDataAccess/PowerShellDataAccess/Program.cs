@@ -19,7 +19,12 @@ namespace PowerShellDataAccess
         {
             // args 0=Database name 1=Table name 2=operation 3-... parameters
 
-            var DBFiles = Directory.GetFiles("DB");
+            var DBFileInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
+            DBFileInfo = DBFileInfo.Parent.Parent;
+
+            var DBDir = Directory.GetDirectories(DBFileInfo.FullName, "DB").First();
+            var DBFiles = Directory.GetFiles(DBDir);
+
             FileInfo fileInfo;
 
             foreach (var DBFile in DBFiles)

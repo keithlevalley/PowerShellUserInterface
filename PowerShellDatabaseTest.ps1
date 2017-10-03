@@ -15,7 +15,7 @@ function Create-DBRecord
         # Param1 help description
         [Parameter(Mandatory=$true,
                    Position=0)]
-        [ValidateSet("Customer.mdf","Medium","High")]
+        [ValidateSet("USB001_USER_MASTER.mdf","Medium","High")]
         [string]
         $DatabaseName,
 
@@ -76,4 +76,4 @@ function Create-DBRecord
     }
 }
 
-Create-DBRecord -DatabaseName Customer.mdf -TableName UST001_USER_MSTR -OperationType Create -Username JDoe -UserFirstName John -UserLastName Doe -UserEmail jdoe@example.com -UserPhoneNumber 111-11-1111
+Create-DBRecord -DatabaseName USB001_USER_MASTER.mdf -TableName UST001_USER_MSTR -OperationType Create -Username JDoe -UserFirstName John -UserLastName Doe -UserEmail jdoe@example.com -UserPhoneNumber 111-11-1111

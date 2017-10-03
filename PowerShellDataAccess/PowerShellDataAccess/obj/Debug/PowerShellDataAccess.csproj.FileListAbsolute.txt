@@ -7,3 +7,12 @@ C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\Po
 C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\obj\Debug\PowerShellDataAccess.csproj.CoreCompileInputs.cache
 C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\obj\Debug\PowerShellDataAccess.dll
 C:\Users\Keith\source\GitHubRepo\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\obj\Debug\PowerShellDataAccess.pdb
+C:\Users\klevalley2\source\repos\github\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\bin\Debug\DB\USB001_USER_MASTER.mdf
+C:\Users\klevalley2\source\repos\github\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\bin\Debug\DB\USB001_USER_MASTER_log.ldf
+C:\Users\klevalley2\source\repos\github\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\bin\Debug\PowerShellDataAccess.exe.config
+C:\Users\klevalley2\source\repos\github\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\bin\Debug\PowerShellDataAccess.exe
+C:\Users\klevalley2\source\repos\github\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\bin\Debug\PowerShellDataAccess.pdb
+C:\Users\klevalley2\source\repos\github\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\obj\Debug\PowerShellDataAccess.csprojResolveAssemblyReference.cache
+C:\Users\klevalley2\source\repos\github\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\obj\Debug\PowerShellDataAccess.csproj.CoreCompileInputs.cache
+C:\Users\klevalley2\source\repos\github\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\obj\Debug\PowerShellDataAccess.exe
+C:\Users\klevalley2\source\repos\github\PowerShellUserInterface\PowerShellDataAccess\PowerShellDataAccess\obj\Debug\PowerShellDataAccess.pdb
