@@ -9,19 +9,8 @@ using Entities;
 
 namespace DBEntities
 {
-    public class DBUser : User, IEntity
+    public class DBUser : User, IDBEntity
     {
-        public string encryptEntity(string serializedObject)
-        {
-            // TODO setup public and private key for encryption
-            return serializedObject;
-        }
-
-        public string serializeEntity()
-        {
-            return encryptEntity(JsonConvert.SerializeObject(this));
-        }
-
         public List<string> CreateRecord()
         {
             var returnArray = new List<string>();
@@ -30,7 +19,7 @@ namespace DBEntities
             {
                 ctx.Users.Add(this);
                 if (ctx.SaveChanges() == 1)
-                    returnArray.Add(this.serializeEntity());
+                    returnArray.Add(DBEntitySerializer.SerializeIEntity(this));
                 else throw new Exception("Unable to add User to the database");
             }
             
@@ -40,27 +29,59 @@ namespace DBEntities
         public List<string> ReadRecord()
         {
             var returnArray = new List<string>();
+            IQueryable<DBUser> query;
 
             using (UserModel ctx = new UserModel())
-                {
-                    var query = ctx.Users.Where<DBUser>(e => e.UserId == this.UserId);
-                }
+            {
+                query = ctx.Users.Where<DBUser>(e => e.UserId == this.UserId);
+            }
+
+            foreach (var record in query)
+            {
+                returnArray.Add(DBEntitySerializer.SerializeIEntity(record));
+            }
+
             return returnArray;
         }
 
-        public List<string> UpdateRecord(IEntity newEntity)
+        public List<string> UpdateRecord(string updatedEntity)
         {
-            throw new NotImplementedException();
+            var returnArray = new List<string>();
+            User newUser = DBEntitySerializer.DeserializeIEntity(updatedEntity) as DBUser;
+
+            if (updatedEntity != null)
+            {
+                using (UserModel ctx = new UserModel())
+                {
+                    DBUser entity = ctx.Users.Where(e => e.UserId == this.UserId).FirstOrDefault();
+                    if (newUser.UserName != null)
+                        entity.UserName = newUser.UserName;
+                    if (newUser.UserEmail != null)
+                        entity.UserEmail = newUser.UserEmail;
+
+                    ctx.Entry(entity).State = EntityState.Modified;
+                    if (ctx.SaveChanges() == 1)
+                        returnArray.Add(DBEntitySerializer.SerializeIEntity(entity));
+                    else throw new Exception("Unable to update User to the database");
+                }
+
+                return returnArray;
+            }
+            else throw new Exception("Update entity is not appropriate entity Type");
         }
 
         public List<string> DeleteRecord()
         {
-            throw new NotImplementedException();
-        }
+            var returnArray = new List<string>();
 
-        public IEntity deserialize(string serializedObject)
-        {
-            return JsonConvert.DeserializeObject<DBUser>(serializedObject);
+            using (UserModel ctx = new UserModel())
+            {
+                ctx.Users.Remove(this);
+                int temp = ctx.SaveChanges();
+                returnArray.Add(temp + " record(s) removed");
+            }
+
+            return returnArray;
         }
     }
 }

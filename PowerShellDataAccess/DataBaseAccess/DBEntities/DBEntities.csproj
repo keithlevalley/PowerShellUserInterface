@@ -50,9 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Customer.cs" />
-    <Compile Include="EntitySerializer.cs" />
-    <Compile Include="IEntity.cs" />
+    <Compile Include="DBCustomer.cs" />
+    <Compile Include="DBEntitySerializer.cs" />
+    <Compile Include="IDBEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DBUser.cs" />
     <Compile Include="UserModel.cs" />

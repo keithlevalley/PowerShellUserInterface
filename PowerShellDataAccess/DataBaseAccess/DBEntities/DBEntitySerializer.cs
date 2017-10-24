@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DBEntities
 {
-    static public class EntitySerializer
+    static public class DBEntitySerializer
     {
-        public static IEntity DeserializeIEntity(string serializedObject)
+        public static IDBEntity DeserializeIEntity(string serializedObject)
         {
             // need to add any new IEntity objects to this list
             // TODO don't like the way this works...
@@ -20,14 +20,14 @@ namespace DBEntities
             catch (JsonException){}
             try
             {
-                return JsonConvert.DeserializeObject<Customer>(serializedObject);
+                return JsonConvert.DeserializeObject<DBCustomer>(serializedObject);
             }
             catch (JsonException) { }
 
             return null;
         }
 
-        public static string SerializeIEntity(IEntity entity)
+        public static string SerializeIEntity(IDBEntity entity)
         {
             return JsonConvert.SerializeObject(entity);
         }

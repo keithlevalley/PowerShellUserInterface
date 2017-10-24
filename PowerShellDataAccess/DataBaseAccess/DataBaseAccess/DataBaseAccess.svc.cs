@@ -15,125 +15,27 @@ namespace DataBaseAccess
     {
         public string[] DBRecord(string serializedObject, string operationType, string newSerializedObject = null)
         {
-            IEntity entity = EntitySerializer.DeserializeIEntity(serializedObject);
+            IDBEntity entity = DBEntitySerializer.DeserializeIEntity(serializedObject);
 
-            if (entity is IEntity)
+            if (entity != null)
             {
                 switch (operationType)
                 {
                     case "Create":
-                        return CreateRecord(entity).ToArray();
+                        return entity.CreateRecord().ToArray();
                     case "Read":
-                        return ReadRecord(entity).ToArray<string>();
+                        return entity.ReadRecord().ToArray<string>();
                     case "Update":
                         if (newSerializedObject == null)
                             throw new Exception("Update requires newSerializedObject string");
-                        IEntity newEntity = EntitySerializer.DeserializeIEntity(newSerializedObject);
-                        return UpdateRecord(entity, newEntity).ToArray();
+                        return entity.UpdateRecord(newSerializedObject).ToArray();
                     case "Delete":
-                        return DeleteRecord(entity).ToArray();
+                        return entity.DeleteRecord().ToArray();
                     default:
                         throw new Exception("operation not accepted");
                 }
             }
             else throw new Exception("serializedObject is not appropriate data type");
-        }
-
-        private List<string> UpdateRecord(IEntity entity, IEntity newSerializedObject)
-        {
-            var returnArray = new List<string>();
-
-            using (UserModel ctx = new UserModel())
-            {
-                
-            }
-        }
-
-        private List<string> ReadRecord(IEntity entity)
-        {
-            var returnArray = new List<string>();
-            // TODO find a way to clean this up for adding of future IEntity types
-            if (entity is DBUser)
-            {
-                using (UserModel ctx = new UserModel())
-                {
-                    var query = ctx.Users.Where<DBUser>(e => e.UserId == entity.UserId))
-                }
-            }
-            else if (entity is Customer)
-            {
-                using (UserModel ctx = new UserModel())
-                {
-                    ctx.Customers.Add((Customer)entity);
-                    if (ctx.SaveChanges() == 1)
-                        returnArray.Add(entity.serializeEntity());
-                    else returnArray.Add("Database unable to add record");
-                }
-            }
-            else throw new Exception("Internal error when evaluating object inside Create method");
-
-            return returnArray;
-        }
-
-        private List<string> CreateRecord(IEntity entity)
-        {
-            var returnArray = new List<string>();
-                // TODO find a way to clean this up for adding of future IEntity types
-            if (entity is DBUser)
-            {
-                using (UserModel ctx = new UserModel())
-                {
-                    ctx.Users.Add((DBUser)entity);
-                    if (ctx.SaveChanges() == 1)
-                        returnArray.Add(entity.serializeEntity());
-                    else returnArray.Add("Database unable to add record");
-                }
-            }
-            else if (entity is Customer)
-            {
-                using (UserModel ctx = new UserModel())
-                {
-                    ctx.Customers.Add((Customer)entity);
-                    if (ctx.SaveChanges() == 1)
-                        returnArray.Add(entity.serializeEntity());
-                    else returnArray.Add("Database unable to add record");
-                }
-            }   
-            else throw new Exception("Internal error when evaluating object inside Create method");
-
-            return returnArray;
-        }
-
-        private List<string> DeleteRecord(IEntity entity)
-        {
-            var returnArray = new List<string>();
-            // TODO find a way to clean this up for adding of future IEntity types
-            if (entity is DBUser)
-            {
-                using (UserModel ctx = new UserModel())
-                {
-                    ctx.Users.Remove((DBUser)entity);
-                    int temp = ctx.SaveChanges();
-                    returnArray.Add(temp + " record(s) removed");
-                }
-            }
-            else if (entity is Customer)
-            {
-                using (UserModel ctx = new UserModel())
-                {
-                    ctx.Customers.Remove((Customer)entity);
-                    int temp = ctx.SaveChanges();
-                    returnArray.Add(temp + " record(s) removed");
-                }
-            }
-            else throw new Exception("Internal error when evaluating object inside Delete method");
-
-            return returnArray;
-        }
-
-        private List<string> UpdateRecord(string serializedObject, string newSerializedObject)
-        {
-            throw new NotImplementedException();
         }
 
         public string GetData(int value)

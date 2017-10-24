@@ -22,7 +22,7 @@ namespace DBEntities
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
 
         public DbSet<DBUser> Users { get; set; }
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<DBCustomer> Customers { get; set; }
     }
 
     //public class MyEntity{}
