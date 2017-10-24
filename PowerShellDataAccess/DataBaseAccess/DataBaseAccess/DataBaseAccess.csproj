@@ -76,9 +76,9 @@
     <Compile Include="DataBaseAccess.svc.cs">
       <DependentUpon>DataBaseAccess.svc</DependentUpon>
     </Compile>
+    <Compile Include="EntityDBConnection.cs" />
     <Compile Include="IDataBaseAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

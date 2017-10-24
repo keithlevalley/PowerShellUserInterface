@@ -38,12 +38,7 @@ function Create-DBRecord
     Begin
     {
 		Add-type -Path .\DBEntities.dll
-        $User = New-Object DBEntities.User(@{
-
-            UserId = $UserId,
-            UserName = $UserName,
-            UserEmail = $UserEmail,
-            UserAddDTM = (Get-Date))
+        $User = New-Object DBEntities.User($UserId, $UserName, $UserEmail, (Get-Date))
 
         $url = "http://localhost:56577/DataBaseAccess.svc"
 
