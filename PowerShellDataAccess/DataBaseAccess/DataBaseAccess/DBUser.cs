@@ -28,11 +28,10 @@ namespace DataBaseAccess
         public List<string> ReadRecord()
         {
             var returnArray = new List<string>();
-            IQueryable<DBUser> query;
 
             using (DBModel ctx = new DBModel())
             {
-                query = ctx.Users.Where<DBUser>(e => e.DBUserId == this.DBUserId);
+                var query = ctx.Users.Where<DBUser>(e => e.DBUserId == this.DBUserId);
 
                 foreach (var record in query)
                 {
@@ -75,7 +74,13 @@ namespace DataBaseAccess
 
             using (DBModel ctx = new DBModel())
             {
-                ctx.Users.Remove(this);
+                var query = ctx.Users.Where<DBUser>(e => e.DBUserId == this.DBUserId);
+
+                foreach (var record in query)
+                {
+                    ctx.Users.Remove(record);
+                }
+
                 int temp = ctx.SaveChanges();
                 returnArray.Add(temp + " record(s) removed");
             }

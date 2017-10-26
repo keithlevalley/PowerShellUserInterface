@@ -32,7 +32,6 @@ function Create-DBRecord
     }
     Process
     {
-        $temp = $User | ConvertTo-Json
         $results = $proxyWS.DBRecord(($DBObject | ConvertTo-Json), "Create", $null)
         Write-Output $results
     }
@@ -65,7 +64,6 @@ function Read-DBRecord
     }
     Process
     {
-        $temp = $User | ConvertTo-Json
         $results = $proxyWS.DBRecord(($DBObject | ConvertTo-Json), "Read", $null)
         Write-Output $results
     }
@@ -74,21 +72,97 @@ function Read-DBRecord
     }
 }
 
-$temp1 = 1
-$temp2 = "test"
-$temp3 = "test"
-$temp4 = (Get-date)
+function Update-DBRecord
+{
+    Param
+    (
+        # Param1 help description
+        [Parameter(
+            Position=0, 
+            Mandatory=$true, 
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true)]
+        [Entities.IEntity]
+        $DBObject,
 
-New-Object Entities.User
+        [Parameter(
+            Position=1, 
+            Mandatory=$true)]
+        [Entities.IEntity]
+        $UpdatedDBObject
+    )
 
-$tempRead = New-Object Entities.User(8)
-$tempCreate = New-Object Entities.User("Tim", "McCabe", (Get-Date))
-$temp = New-Object Entities.Customer
+    Begin
+    {
+		Add-type -Path .\Entities.dll
 
-$tempCreate | Create-DBRecord
+        $url = "http://localhost:53172/Service1.svc"
 
-$tempRead | Read-DBRecord
+        $proxyWS = New-WebServiceProxy $url
+    }
+    Process
+    {
+        $results = $proxyWS.DBRecord(($DBObject | ConvertTo-Json), "Update", ($UpdatedDBObject | ConvertTo-Json))
+        Write-Output $results
+    }
+    End
+    {
+    }
+}
 
-$temp | ConvertTo-Json
+function Delete-DBRecord
+{
+    Param
+    (
+        # Param1 help description
+        [Parameter(
+            Position=0, 
+            Mandatory=$true, 
+            ValueFromPipeline=$true,
+            ValueFromPipelineByPropertyName=$true)]
+        [Entities.IEntity]
+        $DBObject
+    )
 
-$tempString = ConvertTo-Json -InputObject $temp
+    Begin
+    {
+		Add-type -Path .\Entities.dll
+
+        $url = "http://localhost:53172/Service1.svc"
+
+        $proxyWS = New-WebServiceProxy $url
+    }
+    Process
+    {
+        $results = $proxyWS.DBRecord(($DBObject | ConvertTo-Json), "Delete", $null)
+        Write-Output $results
+    }
+    End
+    {
+    }
+}
+
+Get-Command -Noun DBRecord
+
+Get-Help Create-DBRecord -Full
+
+$createUser = New-Object Entities.User("Billy", "Bob", (Get-Date))
+$createCustomer = New-Object Entities.Customer ("John", "Smith", (Get-Date))
+
+$createUser | Create-DBRecord
+$createCustomer | Create-DBRecord
+
+$readUser = New-Object Entities.User(10)
+$readCustomer = New-Object Entities.Customer(4)
+
+$readUser | Read-DBRecord
+$readCustomer | Read-DBRecord
+
+$updateUser = New-Object Entities.User("Bill", "Bobby", (Get-Date))
+$updateCustomer = New-Object Entities.Customer("Jill", "Smith", (Get-Date))
+
+$readUser | Update-DBRecord -UpdatedDBObject $updateUser
+$readCustomer | Update-DBRecord -UpdatedDBObject $updateCustomer
+
+$readUser | Delete-DBRecord
+$readCustomer | Delete-DBRecord
