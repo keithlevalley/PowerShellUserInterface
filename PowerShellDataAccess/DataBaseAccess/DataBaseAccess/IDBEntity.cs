@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.Security;
+using System.Web;
 
-namespace DBEntities
+namespace DataBaseAccess
 {
     // When adding new IEntity objects they also must be added to the DBSET in the UserModel class
 

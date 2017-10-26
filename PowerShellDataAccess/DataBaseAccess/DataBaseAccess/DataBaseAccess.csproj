@@ -6,15 +6,14 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{94558492-E5FC-43F5-BEDB-20CD3A5E6227}</ProjectGuid>
+    <ProjectGuid>{7B15922D-8BB2-45ED-AAD1-8F737712D685}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataBaseAccess</RootNamespace>
     <AssemblyName>DataBaseAccess</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
@@ -48,6 +47,9 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -69,15 +71,19 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataBaseAccess.svc" />
+    <Content Include="Service1.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataBaseAccess.svc.cs">
-      <DependentUpon>DataBaseAccess.svc</DependentUpon>
+    <Compile Include="DBCustomer.cs" />
+    <Compile Include="DBEntitySerializer.cs" />
+    <Compile Include="DBModel.cs" />
+    <Compile Include="DBUser.cs" />
+    <Compile Include="IDBEntity.cs" />
+    <Compile Include="Service1.svc.cs">
+      <DependentUpon>Service1.svc</DependentUpon>
     </Compile>
-    <Compile Include="EntityDBConnection.cs" />
-    <Compile Include="IDataBaseAccess.cs" />
+    <Compile Include="IService1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,9 +99,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DBEntities\DBEntities.csproj">
-      <Project>{7c354c53-647d-40e5-874d-3fa93f1f8bc7}</Project>
-      <Name>DBEntities</Name>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{c38d1308-b69b-4a51-a450-cfda1a8b7318}</Project>
+      <Name>Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -111,9 +117,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>56577</DevelopmentServerPort>
+          <DevelopmentServerPort>53172</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:56577/</IISUrl>
+          <IISUrl>http://localhost:53172/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

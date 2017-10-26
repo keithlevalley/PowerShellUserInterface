@@ -1,20 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class Customer
+    public class Customer : IEntity
     {
-        public int CustomerId { get; set; }
+        public int DBCustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerEmail { get; set; }
         public DateTime CustomerAddDTM { get; set; }
 
-        public Customer(int _customerId = 0, string _customerName = null,
-                    string _customerEmail = null, DateTime _customerAddDTM = new DateTime())
+        public Customer()
         {
-            this.CustomerId = _customerId;
+            this.DBCustomerId = 0;
+            this.CustomerName = "Default Name";
+            this.CustomerEmail = "Default Email";
+            this.CustomerAddDTM = DateTime.Now;
+        }
+
+        public Customer(int _customerId)
+        {
+            this.DBCustomerId = _customerId;
+            this.CustomerName = "Default Name";
+            this.CustomerEmail = "Default Email";
+            this.CustomerAddDTM = DateTime.Now;
+        }
+
+        public Customer(string _customerName, string _customerEmail, DateTime _customerAddDTM)
+        {
+            this.DBCustomerId = 0;
             this.CustomerName = _customerName;
             this.CustomerEmail = _customerEmail;
             this.CustomerAddDTM = _customerAddDTM;

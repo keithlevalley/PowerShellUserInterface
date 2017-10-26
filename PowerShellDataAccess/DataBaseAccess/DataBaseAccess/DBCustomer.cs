@@ -1,44 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using System.Data.Entity;
+using System.Linq;
+using System.Web;
 using Entities;
 
-namespace DBEntities
+namespace DataBaseAccess
 {
-    public class DBUser : User, IDBEntity
+    public class DBCustomer : Customer, IDBEntity
     {
         public List<string> CreateRecord()
         {
             var returnArray = new List<string>();
 
-            using (UserModel ctx = new UserModel())
+            using (DBModel ctx = new DBModel())
             {
-                ctx.Users.Add(this);
+                ctx.Customers.Add(this);
                 if (ctx.SaveChanges() == 1)
                     returnArray.Add(DBEntitySerializer.SerializeIEntity(this));
-                else throw new Exception("Unable to add User to the database");
+                else throw new Exception("Unable to add Customer to the database");
             }
-            
+
             return returnArray;
         }
 
         public List<string> ReadRecord()
         {
             var returnArray = new List<string>();
-            IQueryable<DBUser> query;
+            IQueryable<DBCustomer> query;
 
-            using (UserModel ctx = new UserModel())
+            using (DBModel ctx = new DBModel())
             {
-                query = ctx.Users.Where<DBUser>(e => e.UserId == this.UserId);
-            }
+                query = ctx.Customers.Where<DBCustomer>(e => e.DBCustomerId == this.DBCustomerId);
 
-            foreach (var record in query)
-            {
-                returnArray.Add(DBEntitySerializer.SerializeIEntity(record));
+                foreach (var record in query)
+                {
+                    returnArray.Add(DBEntitySerializer.SerializeIEntity(record));
+                }
             }
 
             return returnArray;
@@ -47,22 +45,22 @@ namespace DBEntities
         public List<string> UpdateRecord(string updatedEntity)
         {
             var returnArray = new List<string>();
-            User newUser = DBEntitySerializer.DeserializeIEntity(updatedEntity) as DBUser;
+            DBCustomer newCustomer = DBEntitySerializer.DeserializeIEntity(updatedEntity) as DBCustomer;
 
             if (updatedEntity != null)
             {
-                using (UserModel ctx = new UserModel())
+                using (DBModel ctx = new DBModel())
                 {
-                    DBUser entity = ctx.Users.Where(e => e.UserId == this.UserId).FirstOrDefault();
-                    if (newUser.UserName != null)
-                        entity.UserName = newUser.UserName;
-                    if (newUser.UserEmail != null)
-                        entity.UserEmail = newUser.UserEmail;
+                    DBCustomer entity = ctx.Customers.Where(e => e.DBCustomerId == this.DBCustomerId).FirstOrDefault();
+                    if (newCustomer.CustomerName != null)
+                        entity.CustomerName = newCustomer.CustomerName;
+                    if (newCustomer.CustomerEmail != null)
+                        entity.CustomerEmail = newCustomer.CustomerEmail;
 
                     ctx.Entry(entity).State = EntityState.Modified;
                     if (ctx.SaveChanges() == 1)
                         returnArray.Add(DBEntitySerializer.SerializeIEntity(entity));
-                    else throw new Exception("Unable to update User to the database");
+                    else throw new Exception("Unable to update Customer to the database");
                 }
 
                 return returnArray;
@@ -74,9 +72,9 @@ namespace DBEntities
         {
             var returnArray = new List<string>();
 
-            using (UserModel ctx = new UserModel())
+            using (DBModel ctx = new DBModel())
             {
-                ctx.Users.Remove(this);
+                ctx.Customers.Remove(this);
                 int temp = ctx.SaveChanges();
                 returnArray.Add(temp + " record(s) removed");
             }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DBEntities")]
+[assembly: AssemblyTitle("Entities")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Davenport University")]
-[assembly: AssemblyProduct("DBEntities")]
+[assembly: AssemblyProduct("Entities")]
 [assembly: AssemblyCopyright("Copyright © Davenport University 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7c354c53-647d-40e5-874d-3fa93f1f8bc7")]
+[assembly: Guid("c38d1308-b69b-4a51-a450-cfda1a8b7318")]
 
 // Version information for an assembly consists of the following four values:
 //
