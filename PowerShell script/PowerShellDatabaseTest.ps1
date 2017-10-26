@@ -166,3 +166,10 @@ $readCustomer | Update-DBRecord -UpdatedDBObject $updateCustomer
 
 $readUser | Delete-DBRecord
 $readCustomer | Delete-DBRecord
+
+$ListOfDBObjects = (New-Object Entities.User("User1", "email", (Get-Date))), (New-Object Entities.Customer("Customer1", "email", (Get-Date)))
+
+$ListOfDBObjects[0]
+$ListOfDBObjects[1]
+
+$ListOfDBObjects | Create-DBRecord
