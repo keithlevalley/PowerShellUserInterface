@@ -9,9 +9,9 @@ namespace DataBaseAccess
 
     public interface IDBEntity
     {
-        List<string> CreateRecord();
-        List<string> ReadRecord();
-        List<string> UpdateRecord(string updatedEntity);
-        List<string> DeleteRecord();
+        List<IDBEntity> CreateRecord();
+        List<IDBEntity> ReadRecord();
+        List<IDBEntity> UpdateRecord(string updatedEntity);
+        List<IDBEntity> DeleteRecord();
     }
 }

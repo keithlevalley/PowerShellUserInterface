@@ -9,82 +9,109 @@ namespace DataBaseAccess
 {
     public class DBCustomer : Customer, IDBEntity
     {
-        public List<string> CreateRecord()
+        public List<IDBEntity> CreateRecord()
         {
-            var returnArray = new List<string>();
+            var returnArray = new List<IDBEntity>();
 
             using (DBModel ctx = new DBModel())
             {
                 ctx.Customers.Add(this);
                 if (ctx.SaveChanges() == 1)
-                    returnArray.Add(DBEntitySerializer.SerializeIEntity(this));
+                    returnArray.Add(this);
                 else throw new Exception("Unable to add Customer to the database");
             }
 
             return returnArray;
         }
 
-        public List<string> ReadRecord()
+        public List<IDBEntity> ReadRecord()
         {
-            var returnArray = new List<string>();
+            var returnArray = new List<IDBEntity>();
+            IQueryable<DBCustomer> entities;
 
             using (DBModel ctx = new DBModel())
             {
-                var query = ctx.Customers.Where<DBCustomer>(e => e.DBCustomerId == this.DBCustomerId);
-
-                foreach (var record in query)
+                if (this.DBCustomerId != 0)
                 {
-                    returnArray.Add(DBEntitySerializer.SerializeIEntity(record));
+                    entities = ctx.Customers.Where<DBCustomer>(e => e.DBCustomerId == this.DBCustomerId);
+                }
+                else if ((this.CustomerName != null) && (this.CustomerEmail != null))
+                {
+                    entities = ctx.Customers
+                        .Where<DBCustomer>(e => (e.CustomerName == this.CustomerName) && e.CustomerEmail == this.CustomerEmail);
+                }
+                else if (this.CustomerName != null)
+                {
+                    entities = ctx.Customers
+                        .Where<DBCustomer>(e => e.CustomerName == this.CustomerName);
+                }
+                else if (this.CustomerEmail != null)
+                {
+                    entities = ctx.Customers
+                        .Where<DBCustomer>(e => e.CustomerEmail == this.CustomerEmail);
+                }
+                else throw new Exception("read requires a primary key, Customername, or Customeremail");
+
+                if (entities == null)
+                    throw new Exception("unable to find any Customer records with the search parameters");
+
+                foreach (var entity in entities)
+                {
+                    returnArray.Add(entity);
                 }
             }
 
             return returnArray;
         }
 
-        public List<string> UpdateRecord(string updatedEntity)
+        public List<IDBEntity> UpdateRecord(string updatedEntity)
         {
-            var returnArray = new List<string>();
-            DBCustomer newCustomer = DBEntitySerializer.DeserializeIEntity(updatedEntity) as DBCustomer;
+            var returnArray = new List<IDBEntity>();
+            var newCustomer = DBEntitySerializer.DeserializeIEntity(updatedEntity) as DBCustomer;
+            var entities = this.ReadRecord();
 
             if (updatedEntity != null)
             {
                 using (DBModel ctx = new DBModel())
                 {
-                    DBCustomer entity = ctx.Customers.Where(e => e.DBCustomerId == this.DBCustomerId).FirstOrDefault();
-                    if (newCustomer.CustomerName != null)
-                        entity.CustomerName = newCustomer.CustomerName;
-                    if (newCustomer.CustomerEmail != null)
-                        entity.CustomerEmail = newCustomer.CustomerEmail;
+                    foreach (DBCustomer entity in entities)
+                    {
+                        ctx.Customers.Where(e => e.DBCustomerId == entity.DBCustomerId);
+                        if (newCustomer.CustomerName != null)
+                            entity.CustomerName = newCustomer.CustomerName;
+                        if (newCustomer.CustomerEmail != null)
+                            entity.CustomerEmail = newCustomer.CustomerEmail;
+                        ctx.Entry(entity).State = EntityState.Modified;
+                        returnArray.Add(entity);
+                    }
 
-                    ctx.Entry(entity).State = EntityState.Modified;
-                    if (ctx.SaveChanges() == 1)
-                        returnArray.Add(DBEntitySerializer.SerializeIEntity(entity));
-                    else throw new Exception("Unable to update Customer to the database");
+                    if (ctx.SaveChanges() == returnArray.Count)
+                        return returnArray;
+                    else throw new Exception("Error updating Customers to the database, request may have partially completed");
                 }
-
-                return returnArray;
             }
             else throw new Exception("Update entity is not appropriate entity Type");
         }
 
-        public List<string> DeleteRecord()
+        public List<IDBEntity> DeleteRecord()
         {
-            var returnArray = new List<string>();
+            var returnArray = new List<IDBEntity>();
+            var entities = this.ReadRecord();
 
             using (DBModel ctx = new DBModel())
             {
                 var query = ctx.Customers.Where<DBCustomer>(e => e.DBCustomerId == this.DBCustomerId);
 
-                foreach (var record in query)
+                foreach (DBCustomer entity in entities)
                 {
-                    ctx.Customers.Remove(record);
+                    ctx.Customers.Remove(entity);
+                    returnArray.Add(entity);
                 }
 
-                int temp = ctx.SaveChanges();
-                returnArray.Add(temp + " record(s) removed");
+                if (ctx.SaveChanges() == returnArray.Count)
+                    return returnArray;
+                else throw new Exception("Error deleting Customers from the database, request may have partially completed");
             }
-
-            return returnArray;
         }
     }
 }

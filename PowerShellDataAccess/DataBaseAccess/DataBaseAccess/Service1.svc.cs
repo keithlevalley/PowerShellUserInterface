@@ -15,26 +15,46 @@ namespace DataBaseAccess
         public string[] DBRecord(string serializedObject, string operationType, string newSerializedObject = null)
         {
             IDBEntity entity = DBEntitySerializer.DeserializeIEntity(serializedObject);
+            var returnString = new List<string>();
+            var returnDBObject = new List<IDBEntity>();
 
-            if (entity != null)
+            try
             {
-                switch (operationType)
+                if (entity != null)
                 {
-                    case "Create":
-                        return entity.CreateRecord().ToArray();
-                    case "Read":
-                        return entity.ReadRecord().ToArray<string>();
-                    case "Update":
-                        if (newSerializedObject == null)
-                            throw new Exception("Update requires newSerializedObject string");
-                        return entity.UpdateRecord(newSerializedObject).ToArray();
-                    case "Delete":
-                        return entity.DeleteRecord().ToArray();
-                    default:
-                        throw new Exception("operation not accepted");
+                    switch (operationType)
+                    {
+                        case "Create":
+                            returnDBObject = entity.CreateRecord();
+                            break;
+                        case "Read":
+                            returnDBObject = entity.ReadRecord();
+                            break;
+                        case "Update":
+                            if (newSerializedObject == null)
+                                throw new Exception("Update requires newSerializedObject string");
+                            returnDBObject = entity.UpdateRecord(newSerializedObject);
+                            break;
+                        case "Delete":
+                            returnDBObject = entity.DeleteRecord();
+                            break;
+                        default:
+                            throw new Exception("operation not accepted");
+                    }
+                    foreach (var DBObject in returnDBObject)
+                    {
+                        returnString.Add(DBEntitySerializer.SerializeIEntity(DBObject));
+                    }
+                    return returnString.ToArray();
                 }
+                else throw new Exception("serializedObject is not appropriate data type");
             }
-            else throw new Exception("serializedObject is not appropriate data type");
+            catch (Exception ex)
+            {
+                returnString.Add(ex.ToString());
+                return returnString.ToArray();
+            }
+            
         }
 
         public string GetData(int value)
