@@ -36,5 +36,13 @@ namespace Entities
             this.CustomerEmail = _customerEmail;
             this.CustomerAddDTM = _customerAddDTM;
         }
+
+        public Customer(int _customerId, string _customerName, string _customerEmail, DateTime _customerAddDTM)
+        {
+            this.DBCustomerId = _customerId;
+            this.CustomerName = _customerName;
+            this.CustomerEmail = _customerEmail;
+            this.CustomerAddDTM = _customerAddDTM;
+        }
     }
 }

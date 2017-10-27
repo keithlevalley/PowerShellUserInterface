@@ -36,5 +36,13 @@ namespace Entities
             this.UserEmail = _userEmail;
             this.UserAddDTM = _userAddDTM;
         }
+
+        public User(int _userId, string _userName, string _userEmail, DateTime _userAddDTM)
+        {
+            this.DBUserId = _userId;
+            this.UserName = _userName;
+            this.UserEmail = _userEmail;
+            this.UserAddDTM = _userAddDTM;
+        }
     }
 }
