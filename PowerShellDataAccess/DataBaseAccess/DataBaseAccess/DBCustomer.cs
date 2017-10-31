@@ -52,8 +52,9 @@ namespace DataBaseAccess
                 }
                 else throw new Exception("read requires a primary key, Customername, or Customeremail");
 
-                if (entities == null)
+                if (entities.Count() == 0)
                     throw new Exception("unable to find any Customer records with the search parameters");
+
 
                 foreach (var entity in entities)
                 {
@@ -100,10 +101,9 @@ namespace DataBaseAccess
 
             using (DBModel ctx = new DBModel())
             {
-                var query = ctx.Customers.Where<DBCustomer>(e => e.DBCustomerId == this.DBCustomerId);
-
                 foreach (DBCustomer entity in entities)
                 {
+                    ctx.Customers.Attach(entity);
                     ctx.Customers.Remove(entity);
                     returnArray.Add(entity);
                 }

@@ -1,8 +1,8 @@
 <#
 .Synopsis
-   Takes an IDBEntity object, parameter DBObject and send a create request to the WebApi.
+   Takes an IEntity object and sends it to the WebApi as a create request.
 .DESCRIPTION
-   Takes in an IDBEntity object through either the pipeline or parameter DBObject.  It passes this object to the WebApi as a create request.  To pass multiple objects you must pass them across the pipeline.
+   Takes in an IEntity object and passes it to the WebApi as a create request.  To pass multiple objects you must pass them across the pipeline.
 .EXAMPLE
    Users the Create-DBuser cmdlet to create a new Entity.User object and passes this through the pipeline.
    Create-DBUser -UserName Test -UserEmail Test@email | Create-DBRecord
@@ -216,27 +216,40 @@ function Create-DBCustomer
     }
 }
 
-$user = Create-DBUser 10 Bob Billy
-$customer = Create-DBCustomer 10 Bob Billy
-
+#Load the required DLL
 Add-type -Path .\Entities.dll
 
-Get-Command -Noun DBRecord
+#Functions that we loaded into scope
+Get-Command -Noun DB*
 
-Get-Help Create-DBRecord -Full
+#Example of syntax
+Get-Help Create-DBRecord -ShowWindow
 
+#Creating object and passing to create all in one step
 Create-DBUser -UserName Test -UserEmail Test@email | Create-DBRecord
-
 Create-DBRecord -DBObject (Create-DBUser -UserName Test -UserEmail Test@email)
 
+#Using New-Object to create Entity objects
 $createUser = New-Object Entities.User("Test", "Test@email", (Get-Date))
 $createCustomer = New-Object Entities.Customer ("John", "Smith", (Get-Date))
+
+#Using custom functions to create objects
+$user = Create-DBUser 10 Bob Billy
+$customer = Create-DBCustomer 10 Bob Billy
+$userWithDefaults = Create-DBUser
+$userWithSelectProperties = Create-DBUser -UserName Smith
+
+#Object is a real object
+$user | Get-Member
 
 $createUser | Create-DBRecord
 $createCustomer | Create-DBRecord
 
-$readUser = New-Object Entities.User("Billy", "Bob", (Get-Date))
-$readCustomer = New-Object Entities.Customer(4)
+$readUser = New-Object Entities.User(1)
+$readCustomer = New-Object Entities.Customer(1)
+
+Create-DBUser -UserName Joe -UserEmail Joe@email.com | Create-DBRecord
+Create-DBCustomer -CustomerName Jill | Create-DBRecord
 
 $readUser | Read-DBRecord
 $readCustomer | Read-DBRecord
@@ -256,8 +269,5 @@ $ListOfDBObjects[0]
 $ListOfDBObjects[1]
 
 $ListOfDBObjects | Create-DBRecord
-
-Create-DBUser -UserName Joe -UserEmail Joe@email.com | Create-DBRecord
-Create-DBCustomer -CustomerName Jill | Create-DBRecord
 
 (Create-DBUser -UserName 1), (Create-DBUser -UserName 2), (Create-DBCustomer -CustomerName 1) | Create-DBRecord

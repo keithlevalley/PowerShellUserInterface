@@ -15,7 +15,7 @@ namespace DataBaseAccess
 
             // TODO fix this code
             string tempString = "";
-            tempString = serializedObject.Substring(2 + serializedObject.IndexOf('"'));
+            tempString = serializedObject.Substring(3 + serializedObject.IndexOf('"'));
             tempString = tempString.Substring(0, (tempString.IndexOf('"')));
 
             if (tempString.Contains("UserId"))

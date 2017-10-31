@@ -100,10 +100,9 @@ namespace DataBaseAccess
 
             using (DBModel ctx = new DBModel())
             {
-                var query = ctx.Users.Where<DBUser>(e => e.DBUserId == this.DBUserId);
-
                 foreach (DBUser entity in entities)
                 {
+                    ctx.Users.Attach(entity);
                     ctx.Users.Remove(entity);
                     returnArray.Add(entity);
                 }
