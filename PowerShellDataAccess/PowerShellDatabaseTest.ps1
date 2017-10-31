@@ -34,7 +34,7 @@ function Create-DBRecord
 
     Begin
     {
-		Add-type -Path .\Entities.dll
+		Add-type -Path .\DataBaseAccess\Entities\bin\Release\Entities.dll
 
         $url = "http://localhost:53172/Service1.svc"
 
@@ -66,7 +66,7 @@ function Read-DBRecord
 
     Begin
     {
-		Add-type -Path .\Entities.dll
+		Add-type -Path .\DataBaseAccess\Entities\bin\Release\Entities.dll
 
         $url = "http://localhost:53172/Service1.svc"
 
@@ -104,7 +104,7 @@ function Update-DBRecord
 
     Begin
     {
-		Add-type -Path .\Entities.dll
+		Add-type -Path .\DataBaseAccess\Entities\bin\Release\Entities.dll
 
         $url = "http://localhost:53172/Service1.svc"
 
@@ -136,7 +136,7 @@ function Delete-DBRecord
 
     Begin
     {
-		Add-type -Path .\Entities.dll
+		Add-type -Path .\DataBaseAccess\Entities\bin\Release\Entities.dll
 
         $url = "http://localhost:53172/Service1.svc"
 
@@ -173,7 +173,7 @@ function Create-DBUser
 
     Begin
     {
-		Add-type -Path .\Entities.dll
+		Add-type -Path .\DataBaseAccess\Entities\bin\Release\Entities.dll
     }
     Process
     {
@@ -205,7 +205,7 @@ function Create-DBCustomer
 
     Begin
     {
-		Add-type -Path .\Entities.dll
+		Add-type -Path .\DataBaseAccess\Entities\bin\Release\Entities.dll
     }
     Process
     {
@@ -256,3 +256,8 @@ $ListOfDBObjects[0]
 $ListOfDBObjects[1]
 
 $ListOfDBObjects | Create-DBRecord
+
+Create-DBUser -UserName Joe -UserEmail Joe@email.com | Create-DBRecord
+Create-DBCustomer -CustomerName Jill | Create-DBRecord
+
+(Create-DBUser -UserName 1), (Create-DBUser -UserName 2), (Create-DBCustomer -CustomerName 1) | Create-DBRecord
