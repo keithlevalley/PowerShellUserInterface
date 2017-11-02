@@ -35,17 +35,17 @@ namespace DataBaseAccess
                 {
                     entities = ctx.Customers.Where<DBCustomer>(e => e.DBCustomerId == this.DBCustomerId);
                 }
-                else if ((this.CustomerName != null) && (this.CustomerEmail != null))
+                else if ((this.CustomerName != null && this.CustomerName != "") && (this.CustomerEmail != null && this.CustomerEmail != ""))
                 {
                     entities = ctx.Customers
                         .Where<DBCustomer>(e => (e.CustomerName == this.CustomerName) && e.CustomerEmail == this.CustomerEmail);
                 }
-                else if (this.CustomerName != null)
+                else if (this.CustomerName != null && this.CustomerName != "")
                 {
                     entities = ctx.Customers
                         .Where<DBCustomer>(e => e.CustomerName == this.CustomerName);
                 }
-                else if (this.CustomerEmail != null)
+                else if (this.CustomerEmail != null && this.CustomerEmail != "")
                 {
                     entities = ctx.Customers
                         .Where<DBCustomer>(e => e.CustomerEmail == this.CustomerEmail);
@@ -78,9 +78,9 @@ namespace DataBaseAccess
                     foreach (DBCustomer entity in entities)
                     {
                         ctx.Customers.Where(e => e.DBCustomerId == entity.DBCustomerId);
-                        if (newCustomer.CustomerName != null)
+                        if (newCustomer.CustomerName != null && newCustomer.CustomerName != "")
                             entity.CustomerName = newCustomer.CustomerName;
-                        if (newCustomer.CustomerEmail != null)
+                        if (newCustomer.CustomerEmail != null && newCustomer.CustomerName != "")
                             entity.CustomerEmail = newCustomer.CustomerEmail;
                         ctx.Entry(entity).State = EntityState.Modified;
                         returnArray.Add(entity);

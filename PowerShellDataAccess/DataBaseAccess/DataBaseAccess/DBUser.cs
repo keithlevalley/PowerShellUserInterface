@@ -35,17 +35,17 @@ namespace DataBaseAccess
                 {
                     entities = ctx.Users.Where<DBUser>(e => e.DBUserId == this.DBUserId);
                 }
-                else if ((this.UserName != null) && (this.UserEmail != null))
+                else if ((this.UserName != null && this.UserName != "") && (this.UserEmail != null && this.UserEmail != ""))
                 {
                     entities = ctx.Users
                         .Where<DBUser>(e => (e.UserName == this.UserName) && e.UserEmail == this.UserEmail);
                 }
-                else if (this.UserName != null)
+                else if (this.UserName != null && this.UserName != "")
                 {
                     entities = ctx.Users
                         .Where<DBUser>(e => e.UserName == this.UserName);
                 }
-                else if (this.UserEmail != null)
+                else if (this.UserEmail != null && this.UserEmail != "")
                 {
                     entities = ctx.Users
                         .Where<DBUser>(e => e.UserEmail == this.UserEmail);
@@ -77,9 +77,9 @@ namespace DataBaseAccess
                     foreach (DBUser entity in entities)
                     {
                         ctx.Users.Where(e => e.DBUserId == entity.DBUserId);
-                        if (newUser.UserName != null)
+                        if (newUser.UserName != null && newUser.UserName != "")
                             entity.UserName = newUser.UserName;
-                        if (newUser.UserEmail != null)
+                        if (newUser.UserEmail != null && newUser.UserEmail != "")
                             entity.UserEmail = newUser.UserEmail;
                         ctx.Entry(entity).State = EntityState.Modified;
                         returnArray.Add(entity);

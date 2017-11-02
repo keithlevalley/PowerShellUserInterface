@@ -152,7 +152,7 @@ function Delete-DBRecord
     }
 }
 
-function Create-DBUser
+function New-DBUser
 {
     Param
     (
@@ -184,7 +184,7 @@ function Create-DBUser
     }
 }
 
-function Create-DBCustomer
+function New-DBCustomer
 {
     Param
     (
@@ -217,57 +217,55 @@ function Create-DBCustomer
 }
 
 #Load the required DLL
-Add-type -Path .\Entities.dll
+Add-type -Path .\DataBaseAccess\Entities\bin\Release\Entities.dll
 
 #Functions that we loaded into scope
 Get-Command -Noun DB*
 
 #Example of syntax
 Get-Help Create-DBRecord -ShowWindow
-
-#Creating object and passing to create all in one step
-Create-DBUser -UserName Test -UserEmail Test@email | Create-DBRecord
-Create-DBRecord -DBObject (Create-DBUser -UserName Test -UserEmail Test@email)
-
-#Using New-Object to create Entity objects
-$createUser = New-Object Entities.User("Test", "Test@email", (Get-Date))
-$createCustomer = New-Object Entities.Customer ("John", "Smith", (Get-Date))
+Get-Help New-DBUser -ShowWindow
 
 #Using custom functions to create objects
-$user = Create-DBUser 10 Bob Billy
-$customer = Create-DBCustomer 10 Bob Billy
-$userWithDefaults = Create-DBUser
-$userWithSelectProperties = Create-DBUser -UserName Smith
+$user = New-DBUser 0 User User@email.com
+$customer = New-DBCustomer 0 Customer Customer@email.com
+$userWithDefaults = New-DBUser
+$CustomerWithProperties = New-DBCustomer -CustomerName Customer1
 
-#Object is a real object
-$user | Get-Member
+#Using objects as parameter for Create-DBRecord
+Create-DBRecord -DBObject $user
 
-$createUser | Create-DBRecord
-$createCustomer | Create-DBRecord
+#Passing objects to Create-DBRecord
+$user | Create-DBRecord
 
-$readUser = New-Object Entities.User(1)
-$readCustomer = New-Object Entities.Customer(1)
+#Passing multiple objects through the pipeline to Create-DBRecord
+$customer, $userWithDefaults | Create-DBRecord
 
-Create-DBUser -UserName Joe -UserEmail Joe@email.com | Create-DBRecord
-Create-DBCustomer -CustomerName Jill | Create-DBRecord
+$arrayOfObjects = $user, $customer
+$arrayOfObjects | Create-DBRecord
 
-$readUser | Read-DBRecord
-$readCustomer | Read-DBRecord
+#Creating object and passing to Create-DBRecord
+New-DBUser -UserName Test -UserEmail Test@email.com | Create-DBRecord
+Create-DBRecord -DBObject (New-DBUser -UserName Test -UserEmail Test@email)
 
-$updateUser = New-Object Entities.User("Bill", "Bobby", (Get-Date))
-$updateCustomer = New-Object Entities.Customer("Jill", "Smith", (Get-Date))
+#Find records using primary key
+New-DBUser 1 | Read-DBRecord
 
-$readUser | Update-DBRecord -UpdatedDBObject $updateUser
-$readCustomer | Update-DBRecord -UpdatedDBObject $updateCustomer
+#Find records using properties
+New-DBUser -UserName Test | Read-DBRecord
+New-DBUser -UserName Test -UserEmail Test@email.com | Read-DBRecord
 
-$readUser | Delete-DBRecord
-$readCustomer | Delete-DBRecord
+#Find records using multiple properties
+(New-DBUser -UserName Test),(New-DBCustomer -CustomerName Customer) | Read-DBRecord
 
-$ListOfDBObjects = (New-Object Entities.User("User1", "email", (Get-Date))), (New-Object Entities.Customer("Customer1", "email", (Get-Date)))
+#Update records using Primary key
+New-DBUser 3 | Update-DBRecord -UpdatedDBObject (New-DBUser -UserName UpdateTest -UserEmail UpdateEmail)
 
-$ListOfDBObjects[0]
-$ListOfDBObjects[1]
+#Update records using properties
+New-DBUser -UserName Test | Update-DBRecord -UpdatedDBObject (New-DBUser -UserName Test1)
 
-$ListOfDBObjects | Create-DBRecord
+#Delete record using primary key
+New-DBUser 7 | Delete-DBRecord
 
-(Create-DBUser -UserName 1), (Create-DBUser -UserName 2), (Create-DBCustomer -CustomerName 1) | Create-DBRecord
+#Delete records(s) using properties
+New-DBUser -UserName Test | Delete-DBRecord
